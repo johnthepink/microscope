@@ -10,3 +10,4 @@ twbs:bootstrap
 underscore
 coffeescript
 iron:router
+sacha:spin
