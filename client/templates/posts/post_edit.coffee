@@ -15,10 +15,10 @@ Template.postEdit.events
       else
         Router.go 'postPage', _id: currentPostId
 
-    'click .delete': (e) ->
-      e.preventDefault()
+  'click .delete': (e) ->
+    e.preventDefault()
 
-      if confirm "Delete this post?"
-        currentPostId = this._id
-        Posts.remove currentPostId
-        Router.go 'postsList'
+    if confirm "Delete this post?"
+      currentPostId = this._id
+      Posts.remove currentPostId
+      Router.go 'postsList'
