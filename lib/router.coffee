@@ -7,34 +7,41 @@ Router.configure
 
 Router.route '/posts/:_id',
   name: 'postPage'
-  waitOn: -> Meteor.subscribe 'comments', @.params._id
-  data: -> Posts.findOne @.params._id
+  waitOn: -> Meteor.subscribe 'comments', @params._id
+  data: -> Posts.findOne @params._id
 
 Router.route '/posts/:_id/edit',
   name: 'postEdit'
-  data: -> Posts.findOne @.params._id
+  data: -> Posts.findOne @params._id
 
 Router.route '/submit', name: 'postSubmit'
 
-Router.route '/:postsLimit?',
-  name: 'postsList'
-
+@PostsListController = RouteController.extend(
+  template: 'postsList'
+  increment: 5
+  postsLimit: ->
+    parseInt(@params.postsLimit) or @increment
+  findOptions: ->
+    {
+      sort: submitted: -1
+      limit: @postsLimit()
+    }
   waitOn: ->
-    limit = parseInt @.params.postsLimit or 5
-    Meteor.subscribe 'posts', sort: { submitted: -1 }, limit: limit
-
+    Meteor.subscribe 'posts', @findOptions()
   data: ->
-    limit = parseInt @.params.postsLimit or 5
-    posts: Posts.find {}, sort: { submitted: -1 }, limit
+    { posts: Posts.find({}, @findOptions()) }
+)
+
+Router.route '/:postsLimit?', name: 'postsList'
 
 requireLogin = ->
   if ! Meteor.user()
     if Meteor.loggingIn()
-      @.render @.loadingTemplate
+      @render @loadingTemplate
     else
-      @.render 'accessDenied'
+      @render 'accessDenied'
   else
-    @.next()
+    @next()
 
 Router.onBeforeAction 'dataNotFound', only: 'postPage'
 Router.onBeforeAction requireLogin, only: 'postSubmit'
