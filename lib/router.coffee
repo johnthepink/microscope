@@ -26,6 +26,8 @@ Router.route '/submit', name: 'postSubmit'
       sort: submitted: -1
       limit: @postsLimit()
     }
+  subscriptions: ->
+    @postsSub = Meteor.subscribe 'posts', @findOptions()
   waitOn: -> Meteor.subscribe 'posts', @findOptions()
   posts: -> Posts.find {}, @findOptions()
   data: ->
@@ -34,6 +36,7 @@ Router.route '/submit', name: 'postSubmit'
 
     {
       posts: Posts.find({}, @findOptions())
+      ready: @postsSub.ready
       nextPath: if hasMore then nextPath else null
     }
 
