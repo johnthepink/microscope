@@ -8,6 +8,14 @@ Posts.deny
   update: (userId, post, fieldNames) ->
     _.without(fieldnames, 'url', 'title').length > 0
 
+@validatePost = (post) ->
+  errors = {}
+  if !post.title
+    errors.title = "Please fill in a headline"
+  if !post.url
+    errors.url = "Please fill in a URL"
+  errors
+
 Meteor.methods
   postInsert: (postAttributes) ->
 
@@ -16,6 +24,10 @@ Meteor.methods
     check postAttributes,
       title: String,
       url: String
+
+    errors = validatePost postAttributes
+    if errors.title or errors.url
+      throw new Meteor.error 'invalid-post', 'You must set a title and URL for your post'
 
     postWithSameLink = Posts.findOne url: postAttributes.url
     if postWithSameLink
