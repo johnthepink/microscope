@@ -50,3 +50,12 @@ if Posts.find().count() == 0
     submitted: new Date(now - 12 * 3600 * 1000),
     commentsCount: 0
 
+  for num in [1..10]
+    Posts.insert
+      title: 'Test post #' + num,
+      author: sacha.profile.name,
+      userId: sacha._id,
+      url: 'http://google.com/?q=test-' + num,
+      submitted: new Date(now - num * 3600 * 1000),
+      commentscount: 0
+
