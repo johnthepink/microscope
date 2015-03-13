@@ -5,5 +5,5 @@ Meteor.publish 'comments', (postId) ->
   check postId, String
   return Comments.find postId: postId
 
-Meteor.publish 'notification', ->
+Meteor.publish 'notifications', ->
   Notifications.find()
