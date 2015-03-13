@@ -4,3 +4,6 @@ Meteor.publish 'posts', ->
 Meteor.publish 'comments', (postId) ->
   check postId, String
   return Comments.find postId: postId
+
+Meteor.publish 'notification', ->
+  Notifications.find()
