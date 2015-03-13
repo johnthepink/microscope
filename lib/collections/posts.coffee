@@ -5,8 +5,9 @@ Posts.allow
   remove: (userId, post) -> ownsDocument(userId, post)
 
 Posts.deny
-  update: (userId, post, fieldNames) ->
-    _.without(fieldNames, 'url', 'title').length > 0
+  update: (userId, post, fieldNames, modifier) ->
+    errors = validatePost modifier.$set
+    return errors.title or errors.url
 
 @validatePost = (post) ->
   errors = {}
