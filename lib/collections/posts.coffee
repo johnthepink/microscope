@@ -6,7 +6,7 @@ Posts.allow
 
 Posts.deny
   update: (userId, post, fieldNames) ->
-    _.without(fieldnames, 'url', 'title').length > 0
+    _.without(fieldNames, 'url', 'title').length > 0
 
 @validatePost = (post) ->
   errors = {}
