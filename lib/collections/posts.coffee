@@ -56,11 +56,12 @@ Meteor.methods
   upvote: (postId) ->
     check @userId, String
     check postId, String
-    post = Posts.findOne postId
-    if !post
-      throw new Meteor.Error 'invalid', 'Post not found'
-    if _.include(post.upvoters, @userId)
-      throw new Meteor.Error 'invalid', 'Already upvoted this post'
-    Posts.update post._id,
+
+    affected = Posts.update {
+      _id: postId
+      upvoters: $ne: @userId
+    },
       $addToSet: upvoters: @userId
       $inc: votes: 1
+    if !affected
+      throw new Meteor.Error 'invalid', 'You weren\'t able to update that post'
