@@ -5,8 +5,14 @@ Template.postItem.helpers
     a = document.createElement 'a'
     a.href = @.url
     return a.hostname
+  upvotedClass: ->
+    userId = Meteor.userId()
+    if userId and !_.include(@upvoters, userId)
+      'btn-primary upvotable'
+    else
+      'disabled'
 
 Template.postItem.events
-  'click .upvote': (e) ->
+  'click .upvotable': (e) ->
     e.preventDefault()
-    Meteor.call 'update', @_id
+    Meteor.call 'upvote', @_id

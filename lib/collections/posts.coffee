@@ -53,7 +53,7 @@ Meteor.methods
       _id: postId
     }
 
-  post: (postId) ->
+  upvote: (postId) ->
     check @userId, String
     check postId, String
     post = Posts.findOne postId
@@ -61,6 +61,6 @@ Meteor.methods
       throw new Meteor.Error 'invalid', 'Post not found'
     if _.include(post.upvoters, @userId)
       throw new Meteor.Error 'invalid', 'Already upvoted this post'
-    Posts.update 'post._id',
-      $addtoSet: upvoters: @userId
+    Posts.update post._id,
+      $addToSet: upvoters: @userId
       $inc: votes: 1
