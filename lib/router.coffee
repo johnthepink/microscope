@@ -16,7 +16,7 @@ Router.route '/posts/:_id/edit',
 
 Router.route '/submit', name: 'postSubmit'
 
-@PostsListController = RouteController.extend(
+@PostsListController = RouteController.extend
   template: 'postsList'
   increment: 5
   postsLimit: ->
@@ -26,11 +26,16 @@ Router.route '/submit', name: 'postSubmit'
       sort: submitted: -1
       limit: @postsLimit()
     }
-  waitOn: ->
-    Meteor.subscribe 'posts', @findOptions()
+  waitOn: -> Meteor.subscribe 'posts', @findOptions()
+  posts: -> Posts.find {}, @findOptions()
   data: ->
-    { posts: Posts.find({}, @findOptions()) }
-)
+    hasMore = @posts().count() == @postsLimit()
+    nextPath = @route.path(postsLimit: @postsLimit() + @increment)
+
+    {
+      posts: Posts.find({}, @findOptions())
+      nextPath: if hasMore then nextPath else null
+    }
 
 Router.route '/:postsLimit?', name: 'postsList'
 
