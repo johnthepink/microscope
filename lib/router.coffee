@@ -56,12 +56,18 @@ Router.route '/submit', name: 'postSubmit'
   nextPath: ->
     Router.routes.bestPosts.path postsLimit: @postsLimit() + @increment
 
+@ClickedPostsController = PostsListController.extend
+  sort: cliks: -1, submitted: -1, _id: -1
+  nextPath: ->
+    Router.routes.clickedPosts.path postsLimit: @postsLimit() + @increment
+
 Router.route '/',
   name: 'home'
   controller: NewPostsController
 
 Router.route '/new/:postsLimit?', name: 'newPosts'
 Router.route '/best/:postsLimit?', name: 'bestPosts'
+Router.route '/clicked/:postsLimit?', name: 'clickedPosts'
 
 Router.route '/feed.xml',
   where: 'server'

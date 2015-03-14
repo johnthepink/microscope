@@ -28,7 +28,7 @@ Bitly.getClicks = function(link){
     throw new Meteor.Error(500, 'Please provide a Bitly token in Meteor.settings');
 
   var statsResponse = Meteor.http.get(
-    "https://qpi-ssl.bitly.com/v3/link/clicks?",
+    "https://api-ssl.bitly.com/v3/link/clicks?",
     {
       timeout: 5000,
       paras: {
