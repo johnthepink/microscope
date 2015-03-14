@@ -91,6 +91,18 @@ Router.route '/api/posts',
     @response.write JSON.stringify(data)
     @response.end()
 
+Router.route '/api/posts/:_id',
+  where: 'server'
+  name: 'apiPost'
+  action: ->
+    post = Posts.findOne(@params._id)
+    if post
+      @response.write JSON.stringify(post)
+    else
+      @response.writeHead 404, 'Content-Type': 'text/html'
+      @response.write 'Post not found.'
+    @response.end()
+
 requireLogin = ->
   if ! Meteor.user()
     if Meteor.loggingIn()
