@@ -67,7 +67,10 @@ Router.route '/feed.xml',
   where: 'server'
   name: 'rss'
   action: ->
-    @response.write 'hello world'
+    feed = new RSS
+      title: "New Microscope Posts"
+      description: "The latest posts from Mircoscope, the smallest news aggregator."
+    @response.write feed.xml()
     @response.end()
 
 requireLogin = ->
