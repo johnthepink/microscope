@@ -1,5 +1,9 @@
 Template.postsList.rendered = ->
   @find('.wrapper')._uihooks =
+    insertElement: (node, next) ->
+      $(node).hide().insertBefore(next).fadeIn()
+      return
+
     moveElement: (node, next) ->
       $node = $(node)
       $next = $(next)
@@ -29,3 +33,7 @@ Template.postsList.rendered = ->
       # reset everything to 0, animated
       $node.addClass('animate').css 'top', 0
       $inBetween.addClass('animate').css 'top', 0
+
+    removeElement: (node) ->
+      $(node).fadeOut ->
+        $(@).remove()
