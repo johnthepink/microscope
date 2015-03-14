@@ -70,6 +70,14 @@ Router.route '/feed.xml',
     feed = new RSS
       title: "New Microscope Posts"
       description: "The latest posts from Mircoscope, the smallest news aggregator."
+    Posts.find({}, sort: { submitted: -1 }, limit: 20).forEach (post) ->
+      feed.item
+        title: post.title
+        description: post.body
+        author: post.author
+        date: post.submitted
+        url: '/posts/' + post._id
+
     @response.write feed.xml()
     @response.end()
 
