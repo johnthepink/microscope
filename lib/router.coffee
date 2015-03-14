@@ -63,6 +63,13 @@ Router.route '/',
 Router.route '/new/:postsLimit?', name: 'newPosts'
 Router.route '/best/:postsLimit?', name: 'bestPosts'
 
+Router.route '/feed.xml',
+  where: 'server'
+  name: 'rss'
+  action: ->
+    @response.write 'hello world'
+    @response.end()
+
 requireLogin = ->
   if ! Meteor.user()
     if Meteor.loggingIn()
@@ -72,5 +79,6 @@ requireLogin = ->
   else
     @next()
 
-Router.onBeforeAction 'dataNotFound', only: 'postPage'
-Router.onBeforeAction requireLogin, only: 'postSubmit'
+if Meteor.isClient
+  Router.onBeforeAction 'dataNotFound', only: 'postPage'
+  Router.onBeforeAction requireLogin, only: 'postSubmit'
