@@ -81,6 +81,14 @@ Router.route '/feed.xml',
     @response.write feed.xml()
     @response.end()
 
+Router.route '/api/posts',
+  where: 'server'
+  name: 'apiPosts'
+  action: ->
+    data = Posts.find().fetch()
+    @response.write JSON.stringify(data)
+    @response.end()
+
 requireLogin = ->
   if ! Meteor.user()
     if Meteor.loggingIn()
