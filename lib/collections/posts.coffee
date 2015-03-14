@@ -47,6 +47,12 @@ Meteor.methods
       upvoters: [],
       votes: 0
 
+    # shorten link URL
+    if Meteor.isServer
+      shortUrl = Bitly.shortenURL post.url
+      if post.url and shortUrl
+        post.shortUrl = shortUrl
+
     postId = Posts.insert post
 
     return {
