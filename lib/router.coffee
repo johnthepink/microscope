@@ -3,7 +3,10 @@ Router.configure
   loadingTemplate: 'loading'
   notFoundTemplate: 'notFound'
   waitOn: ->
-    Meteor.subscribe 'notifications'
+    [
+      Meteor.subscribe 'currentUser'
+      Meteor.subscribe 'notifications'
+    ]
 
 Router.route '/posts/:_id',
   name: 'postPage'

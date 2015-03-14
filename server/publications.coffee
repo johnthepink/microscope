@@ -15,3 +15,6 @@ Meteor.publish 'comments', (postId) ->
 
 Meteor.publish 'notifications', ->
   Notifications.find userId: @.userId, read: false
+
+Meteor.publish 'currentUser', ->
+  Meteor.users.find(@userId, fields: { createdAt: 1 })
