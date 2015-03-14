@@ -85,7 +85,9 @@ Router.route '/api/posts',
   where: 'server'
   name: 'apiPosts'
   action: ->
-    data = Posts.find().fetch()
+    parameters = @request.query
+    limit = if parameters.limit then parseInt(parameters.limit) else 20
+    data = Posts.find({}, limit: limit, fields: { title: 1, author: 1, url: 1, submitted: 1 } ).fetch()
     @response.write JSON.stringify(data)
     @response.end()
 
