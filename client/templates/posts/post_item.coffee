@@ -11,6 +11,8 @@ Template.postItem.helpers
       'btn-primary upvotable'
     else
       'disabled'
+  postUrl: ->
+    if @shortUrl then @shortUrl else @url
 
 Template.postItem.events
   'click .upvotable': (e) ->
