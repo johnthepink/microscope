@@ -17,4 +17,4 @@ Meteor.publish 'notifications', ->
   Notifications.find userId: @.userId, read: false
 
 Meteor.publish 'currentUser', ->
-  Meteor.users.find(@userId, fields: { createdAt: 1 })
+  Meteor.users.find(@userId, fields: { createdAt: 1, intercomHash: 1 })
